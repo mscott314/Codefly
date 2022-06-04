@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--  <meta name="theme-color" content="#000" media="(prefers-color-scheme: dark)">-->
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='default.css') }}">
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+    <script src="/static/default.js" defer></script>
+    <!--  <link rel="stylesheet" media="screen and (min-width: 900px)" href="widescreen.css">-->
+    {% block head %} {% endblock head %}
+</head>
+<body>
+<header>
+    <a href="{{ url_for('index') }}">
+        <h1>
+            Code<span>fly</span>
+        </h1>
+    </a>
+    <img src="{{ url_for('static', filename='menu.svg') }}" alt="Menu" id="menuButton">
+</header>
+<div id="menuBackdrop">
+    <div id="menu">
+        <div id="menuHeader">
+            <img src="{{ url_for('static', filename='close.svg') }}" alt="Close" id="menuClose">
+        </div>
+        <nav id="menuNav">
+            <br>
+            <h2>Navigate</h2>
+            <ul>
+                <li><a href="{{ url_for('index') }}">&#127968; Home</a></li>
+                <li><a href="{{ url_for('projects') }}">&#128187; Projects</a></li>
+                <li><a href="{{ url_for('articles') }}">&#128221; Articles</a></li>
+                <li><a href="{{ url_for('about') }}">&#128214; About</a></li>
+                <li><a href="{{ url_for('contact') }}">&#128231; Contact</a></li>
+            </ul>
+            <div id="menuFooter">
+                <a href="https://github.com/codeflyio/Codefly" target="_blank">GitHub</a>
+                <a href="{{ url_for('thanks') }}">Thanks</a>
+            </div>
+        </nav>
+    </div>
+</div>
+{% block content %}{% endblock content %}
+<footer>
+    <ul>
+        <li>😎</li>
+    </ul>
+</footer>
+</body>
+</html>

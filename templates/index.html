@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block head %}
+{% endblock head %}
+{% block content %}
+
+<main>
+    <section>
+        <h2 style="text-decoration: underline">Welcome</h2>
+        <ul style="font-size:1.2rem"><style>li{padding:0.5rem;}</style>
+            <li><a href="{{ url_for('index') }}">&#127968; Home</a></li>
+            <li><a href="{{ url_for('projects') }}">&#128187; Projects</a></li>
+            <li><a href="{{ url_for('articles') }}">&#128221; Articles</a></li>
+            <li><a href="{{ url_for('about') }}">&#128214; About</a></li>
+            <li><a href="{{ url_for('contact') }}">&#128231; Contact</a></li>
+            <li><a href="{{ url_for('thanks') }}">&#128077; Thanks</a></li>
+        </ul>
+    </section>
+</main>
+{% endblock content %}

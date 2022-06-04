@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block head %}
+    <script src="/static/logs.js" defer></script>
+{% endblock head %}
+{% block content %}
+<style>
+    .container {
+        display:flex;
+        flex-direction:column;
+        justify-content:space-between;
+        width:50%;
+        min-height:100px;
+        margin: 1rem auto;
+        border-radius: 0.3rem;
+        box-shadow: 0 0 5px 5px rgba(47,45,101,0.1);
+    }
+    .container section {
+        /* border: 1px solid red; */
+        display: flex;
+        justify-content: space-between;
+    }
+    .container span {
+        /* border:1px solid green; */
+    }
+    .container img {
+        width: 64px;
+        height: 64px;
+    }
+    .ml_span, .mr_span{
+        margin: 1rem;
+    }
+    details, li {
+        cursor: pointer;
+    }
+    {#details[open] {#}
+    {#    cursor: pointer;#}
+    {#}#}
+</style>
+<main id="main">
+    <section>
+
+    <form id="api_form" method="post">
+        <input type="text" name="api_key" id="api_key" placeholder="Enter your API key here." maxlength="80" size="80" required>
+        <select name="length" id="length" required>
+            <option value="" selected></option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="200">200</option>
+            <option value="all">All</option>
+        </select>
+        <input type="submit" value="Submit">
+    </form>
+
+    <form id="filter">
+        <input type="checkbox" id="joined"> joined
+        <input type="checkbox" id="invited"> invited
+        <input type="checkbox" id="invite_declined"> invite declined
+        <input type="checkbox" id="kick"> kick
+        <input type="checkbox" id="rank_change"> rank_change
+        <input type="checkbox" id="treasury"> treasury
+        <input type="checkbox" id="stash"> stash
+        <input type="checkbox" id="motd"> motd
+        <input type="checkbox" id="upgrade"> upgrade
+        <input type="checkbox" id="influence"> influence
+    </form>
+    </section>
+</main>
+
+{% endblock content %}
