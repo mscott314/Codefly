@@ -5,39 +5,44 @@ let main = document.querySelector('#main');
 
 api_form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    let guild_info = [];
     formData = new FormData(api_form);
     api_key = formData.get('api_key');
-    let {guild_leader} = await (await fetch('https://api.guildwars2.com/v2/account?access_token=' + api_key)).json();
-    create_guild_list(guild_leader); // async
+    if (document.querySelector('#guild_list')) {document.querySelector('#guild_list').remove();}
+    if (document.querySelector('#log_list')) {document.querySelector('#log_list').remove();}
+    let {guilds, guild_leader} = await (await fetch(`https://api.guildwars2.com/v2/account?access_token=${api_key}`)).json();
+    for (let id of guilds) {
+        let {name, tag} = await (await fetch(`https://api.guildwars2.com/v2/guild/${id}`)).json();
+        if (guild_leader.includes(id)) {
+            guild_info.push({"name": name, "tag": tag, "leader": true, "id": id});
+        } else {
+            guild_info.push({"name": name, "tag": tag, "leader": false, "id": id});
+        }
+    }
+    create_guild_list(guild_info);
     api_form.reset();
-    if (document.querySelector('#guild_list')) {
-        document.querySelector('#guild_list').remove();
-    }
-    if (document.querySelector('#log_list')) {
-        document.querySelector('#log_list').remove();
-    }
 });
 
-async function create_guild_list(guilds) {
-    let ul = document.createElement('ul');
-    ul.setAttribute('id', 'guild_list');
-    let li;
-    let guild;
-    for (let i = 0, len = guilds.length; i < len; i++) {
-        guild = await (await fetch('https://api.guildwars2.com/v2/guild/' + guilds[i])).json();
-        li = document.createElement('li');
-        li.textContent = `[${guild["tag"]}] ${guild["name"]}`;
-
-        li.addEventListener('click', () => {
-            create_log_list(guilds[i]);
-            filter.reset();
-        });
-        ul.appendChild(li);
+function create_guild_list(guild_info) {
+    let span = document.createElement('span')
+    span.setAttribute('id', 'guild_list');
+    for (let guilds of guild_info) {
+        if (!guilds.leader) {
+            let button = document.createElement('button');
+            button.disabled = true;
+            button.textContent = `[${guilds.tag}] ${guilds.name}`;
+            span.append(button);
+        } else {
+            let button = document.createElement('button');
+            button.textContent = `[${guilds.tag}] ${guilds.name}`;
+            span.append(button);
+            button.addEventListener('click', ()=> {
+                create_log_list(guilds.id).then().catch(()=>{console.log("Error at create_log_list() call")});
+            });
+        }
     }
-    // document.body.appendChild(ul);
-    main.appendChild(ul);
+    main.append(span);
 }
-
 
 async function create_log_list(guild_id) {
     let logs = await (await fetch('https://api.guildwars2.com/v2/guild/' + guild_id + '/log?access_token=' + api_key)).json();
@@ -141,7 +146,6 @@ async function create_log_list(guild_id) {
     main.appendChild(log_list);
     // document.body.appendChild(log_list);
 }
-
 
 function create_log_entry(count, date, type, details, description, image) {
 

@@ -38,10 +38,9 @@
 </style>
 <main id="main">
     <section>
-
     <form id="api_form" method="post">
-        <input type="text" name="api_key" id="api_key" placeholder="Enter your API key here." maxlength="80" size="80" required>
-        <select name="length" id="length" required>
+        <label for="api_key"></label><input type="text" name="api_key" id="api_key" placeholder="Enter your API key here." maxlength="80" size="80" required>
+        <label for="length"></label><select name="length" id="length" required>
             <option value="" selected></option>
             <option value="25">25</option>
             <option value="50">50</option>
@@ -53,17 +52,18 @@
     </form>
 
     <form id="filter">
-        <input type="checkbox" id="joined"> joined
-        <input type="checkbox" id="invited"> invited
-        <input type="checkbox" id="invite_declined"> invite declined
-        <input type="checkbox" id="kick"> kick
-        <input type="checkbox" id="rank_change"> rank_change
-        <input type="checkbox" id="treasury"> treasury
-        <input type="checkbox" id="stash"> stash
-        <input type="checkbox" id="motd"> motd
-        <input type="checkbox" id="upgrade"> upgrade
-        <input type="checkbox" id="influence"> influence
+        <label for="joined"></label><input type="checkbox" id="joined"> joined
+        <label for="invited"></label><input type="checkbox" id="invited"> invited
+        <label for="invite_declined"></label><input type="checkbox" id="invite_declined"> invite declined
+        <label for="kick"></label><input type="checkbox" id="kick"> kick
+        <label for="rank_change"></label><input type="checkbox" id="rank_change"> rank_change
+        <label for="treasury"></label><input type="checkbox" id="treasury"> treasury
+        <label for="stash"></label><input type="checkbox" id="stash"> stash
+        <label for="motd"></label><input type="checkbox" id="motd"> motd
+        <label for="upgrade"></label><input type="checkbox" id="upgrade"> upgrade
+        <label for="influence"></label><input type="checkbox" id="influence"> influence
     </form>
+
     </section>
 </main>
 
