@@ -55,7 +55,7 @@ function create_guild_list(guild_info) {
 }
 
 async function create_log_list(guild_id) {
-    let logs = await (await fetch('https://api.guildwars2.com/v2/guild/' + guild_id + '/log?access_token=' + api_key)).json();
+    let logs = await (await fetch(`https://api.guildwars2.com/v2/guild/${guild_id}/log?access_token=${api_key}`)).json();
 
     if (document.querySelector('#log_list')) {
         document.querySelector('#log_list').remove();
