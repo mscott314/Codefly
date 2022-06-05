@@ -8,8 +8,13 @@ api_form.addEventListener('submit', async (e) => {
     let guild_info = [];
     formData = new FormData(api_form);
     api_key = formData.get('api_key');
-    if (document.querySelector('#guild_list')) {document.querySelector('#guild_list').remove();}
-    if (document.querySelector('#log_list')) {document.querySelector('#log_list').remove();}
+    if (document.querySelector('#guild_list')) {
+        document.querySelector('#guild_list').remove();
+    }
+    if (document.querySelector('#log_list')) {
+        document.querySelector('#log_list').remove();
+    }
+
     let {guilds, guild_leader} = await (await fetch(`https://api.guildwars2.com/v2/account?access_token=${api_key}`)).json();
     for (let id of guilds) {
         let {name, tag} = await (await fetch(`https://api.guildwars2.com/v2/guild/${id}`)).json();
@@ -21,9 +26,11 @@ api_form.addEventListener('submit', async (e) => {
     }
     create_guild_list(guild_info);
     api_form.reset();
+    filter.reset();
 });
 
 function create_guild_list(guild_info) {
+    let section = document.querySelector('section');
     let span = document.createElement('span')
     span.setAttribute('id', 'guild_list');
     for (let guilds of guild_info) {
@@ -36,12 +43,15 @@ function create_guild_list(guild_info) {
             let button = document.createElement('button');
             button.textContent = `[${guilds.tag}] ${guilds.name}`;
             span.append(button);
-            button.addEventListener('click', ()=> {
-                create_log_list(guilds.id).then().catch(()=>{console.log("Error at create_log_list() call")});
+            button.addEventListener('click', () => {
+                filter.reset();
+                create_log_list(guilds.id).then().catch(() => {
+                    console.log("Error at create_log_list() call")
+                });
             });
         }
     }
-    main.append(span);
+    section.append(span);
 }
 
 async function create_log_list(guild_id) {
@@ -193,8 +203,6 @@ function create_log_entry(count, date, type, details, description, image) {
 }
 
 let filter = document.querySelector('#filter');
-// let formdata = new FormData(filter);
-
 filter.addEventListener('change', () => {
     let check = document.querySelectorAll('input[type=checkbox]:checked');
     let x = document.querySelectorAll('.container');

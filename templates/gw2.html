@@ -4,6 +4,9 @@
 {% endblock head %}
 {% block content %}
 <style>
+    button {
+        margin: 0 1rem;
+    }
     .container {
         display:flex;
         flex-direction:column;
@@ -37,7 +40,12 @@
     {#}#}
 </style>
 <main id="main">
-    <section>
+    <h3>Guild Wars 2 Logs</h3>
+    <ul>
+        <li>You can only view logs from a guild where you are ranked as a leader.</li>
+        <li>You only need a minimum of the <em>guilds</em> option in your ANet API key for this to work.</li>
+    </ul>
+    <section style="text-align: center">
     <form id="api_form" method="post">
         <label for="api_key"></label><input type="text" name="api_key" id="api_key" placeholder="Enter your API key here." maxlength="80" size="80" required>
         <label for="length"></label><select name="length" id="length" required>
@@ -50,12 +58,11 @@
         </select>
         <input type="submit" value="Submit">
     </form>
-
     <form id="filter">
         <label for="joined"></label><input type="checkbox" id="joined"> joined
         <label for="invited"></label><input type="checkbox" id="invited"> invited
         <label for="invite_declined"></label><input type="checkbox" id="invite_declined"> invite declined
-        <label for="kick"></label><input type="checkbox" id="kick"> kick
+        <label for="kick"></label><input type="checkbox" id="kick"> kick/leave
         <label for="rank_change"></label><input type="checkbox" id="rank_change"> rank_change
         <label for="treasury"></label><input type="checkbox" id="treasury"> treasury
         <label for="stash"></label><input type="checkbox" id="stash"> stash
@@ -63,7 +70,7 @@
         <label for="upgrade"></label><input type="checkbox" id="upgrade"> upgrade
         <label for="influence"></label><input type="checkbox" id="influence"> influence
     </form>
-
+    <br>
     </section>
 </main>
 
