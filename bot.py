@@ -2,6 +2,8 @@ import random
 from random import randint, choice
 import json
 import re
+from time import sleep
+
 import requests
 from flask import request
 from ibm_watson import AssistantV2, AssistantV1, ApiException
@@ -64,6 +66,18 @@ def reply(user):  # main reply function
     if intent == "Definition":
         return definitions(entity) or bot_reply
 
+    if intent == "Quotes":
+        return quotes() or bot_reply
+
+    if intent == "Fortunes":
+        return fortunes() or bot_reply
+
+    if intent == "Jokes":
+        return jokes() or bot_reply
+
+    if intent == "Smalltalk":
+        return "<span style='font-size: 0.7rem'>Is this small talk?</span>"
+
     return bot_reply
 
 
@@ -104,6 +118,37 @@ def definitions(entity):
     # return random.choice([wiki(), dict_api(), dict_file()])
 
 
+def quotes():
+    with open('static/quotes.json', 'r') as dictionary:
+        data = json.load(dictionary)
+    try:
+        word = data[randint(0, len(data))]["quote"]
+    except (KeyError, IndexError, Exception):
+        return None
+    return word
+
+
+def jokes():
+    with open('static/jokes.json', 'r') as dictionary:
+        data = json.load(dictionary)
+    try:
+        num = randint(0, len(data))
+        word = f"{data[num]['setup']} <br> {data[num]['punchline']}"
+    except (KeyError, IndexError, Exception):
+        return None
+    return word
+
+
+def fortunes():
+    with open('static/fortunes.json', 'r') as dictionary:
+        data = json.load(dictionary)
+    try:
+        word = data[str(randint(0, len(data)))]
+    except (KeyError, IndexError, Exception):
+        return None
+    return word
+
+
 def word_of_the_day():
     try:
         data = requests.get(f'https://api.wordnik.com/v4/words.json/wordOfTheDay?api_key={keys.wordnik}').json()
@@ -116,25 +161,25 @@ def word_of_the_day():
 
 def eight_ball():
     response = {
-        "0": "It is certain.",
-        "1": "It is decidedly so.",
-        "2": "Without a doubt.",
-        "3": "Yes definitely!",
-        "4": "You may rely on it.",
-        "5": "As I see it, yes.",
-        "6": "Most likely.",
-        "7": "Outlook good.",
-        "8": "Yes!",
-        "9": "Signs point to yes!",
-        "10": "Reply hazy, try again.",
-        "11": "Ask again later.",
-        "12": "Better not tell you now.",
-        "13": "Cannot predict now.",
-        "14": "Concentrate and ask again!",
-        "15": "Don't count on it!",
-        "16": "My reply is no.",
-        "17": "My sources say no.",
-        "18": "Outlook not so good.",
-        "19": "Very doubtful."
+        0: "It is certain.",
+        1: "It is decidedly so.",
+        2: "Without a doubt.",
+        3: "Yes definitely!",
+        4: "You may rely on it.",
+        5: "As I see it, yes.",
+        6: "Most likely.",
+        7: "Outlook good.",
+        8: "Yes!",
+        9: "Signs point to yes!",
+        10: "Reply hazy, try again.",
+        11: "Ask again later.",
+        12: "Better not tell you now.",
+        13: "Cannot predict now.",
+        14: "Concentrate and ask again!",
+        15: "Don't count on it!",
+        16: "My reply is no.",
+        17: "My sources say no.",
+        18: "Outlook not so good.",
+        19: "Very doubtful."
     }
-    return response[str(randint(0, 19))]
+    return response[randint(0, 19)]
