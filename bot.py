@@ -87,7 +87,7 @@ def definitions(entity):
         url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{entity}"
         header = {'User-Agent': keys.email}
         try:
-            req = requests.get(url, headers=header).json()
+            req = requests.get(url, headers=header, timeout=5).json()
             response = req['extract']
         except (KeyError, IndexError, Exception):
             return None
@@ -96,7 +96,7 @@ def definitions(entity):
     def dict_api():
         url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{entity}"
         try:
-            response = requests.get(url).json()
+            response = requests.get(url, timeout=5).json()
             thing = []
             for words in response[0]['meanings'][0]['definitions']:
                 thing.append(words['definition'] + '<br>')
@@ -119,7 +119,7 @@ def definitions(entity):
 
 
 def quotes():
-    with open('static/quotes.json', 'r') as dictionary:
+    with open("static/quotes.json", 'r') as dictionary:
         data = json.load(dictionary)
     try:
         word = data[randint(0, len(data))]["quote"]
@@ -129,7 +129,7 @@ def quotes():
 
 
 def jokes():
-    with open('static/jokes.json', 'r') as dictionary:
+    with open('/static/jokes.json', 'r') as dictionary:
         data = json.load(dictionary)
     try:
         num = randint(0, len(data))
@@ -140,7 +140,7 @@ def jokes():
 
 
 def fortunes():
-    with open('static/fortunes.json', 'r') as dictionary:
+    with open('/static/fortunes.json', 'r') as dictionary:
         data = json.load(dictionary)
     try:
         word = data[str(randint(0, len(data)))]
@@ -151,11 +151,11 @@ def fortunes():
 
 def word_of_the_day():
     try:
-        data = requests.get(f'https://api.wordnik.com/v4/words.json/wordOfTheDay?api_key={keys.wordnik}').json()
-        result = f"<strong>{data['word']}:</strong>  {data['definitions'][0]['text']}\
-                    https://www.wordnik.com/words/{data['word']}"
+        data = requests.get(f'https://api.wordnik.com/v4/words.json/wordOfTheDay?api_key={keys.wordnik}', timeout=5).json()
+        result = f"<strong><a href='https://www.wordnik.com/words/{data['word']}' target='_blank'>{data['word']}</a>: \
+        </strong>{data['definitions'][0]['text']}"
     except (KeyError, IndexError, Exception):
-        return None
+        return "Please try again later. (!wod)"
     return result
 
 
